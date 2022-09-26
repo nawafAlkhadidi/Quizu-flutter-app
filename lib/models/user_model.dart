@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_collection_literals
-
 class UserModel {
   String? mobile;
   String? name;
@@ -12,7 +10,7 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['mobile'] = mobile;
     data['name'] = name;
     return data;
