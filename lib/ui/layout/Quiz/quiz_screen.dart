@@ -19,7 +19,7 @@ class _QuizzesScreenState extends State<QuizzesScreen>
   bool isloading = false;
   int questionNumber = 1;
   Timer? timer;
-  int timeOfGame = 120;
+  int timeOfGame = 12;
   bool isAnswered = false;
   List<String> letter = ["a", "b", "c", "d"];
   int scores = 0;
@@ -39,11 +39,13 @@ class _QuizzesScreenState extends State<QuizzesScreen>
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       //? Countdown Timer  (time -1)
       setState(() {
-         timeOfGame --;
+        timeOfGame--;
       });
       //? when the time's up
       if (timeOfGame == 0) {
-        saveScores();
+        if (scores != 0) {
+          saveScores();
+        }
         showDialog(
             context: context,
             barrierDismissible: false,
@@ -83,8 +85,9 @@ class _QuizzesScreenState extends State<QuizzesScreen>
         duration: const Duration(milliseconds: 500), vsync: this);
   }
 
-////////////////! Function to start new game ////////////////!
-  void newGame() {
+////////////////! Function to start new games ////////////////!
+  void newGames() {
+    //? Clear variables
     setState(() {
       questionNumber = 1;
       isSkip = false;
@@ -113,12 +116,11 @@ class _QuizzesScreenState extends State<QuizzesScreen>
   void isCorrect(String? letter) async {
     setState(() => isAnswered = true);
     //? when the answered is correct
-    if (letter == listOfquestion[questionNumber-1]!.correct) {
+    if (letter == listOfquestion[questionNumber - 1]!.correct) {
       await Future.delayed(const Duration(milliseconds: 300));
-      print("questionNumber:  ${questionNumber}  listOfquestion:  ${listOfquestion.length}");
       //? when the user complate all questions
       if (questionNumber == listOfquestion.length) {
-         scores++;
+        scores++;
         saveScores();
         showDialog(
             context: context,
@@ -157,7 +159,7 @@ class _QuizzesScreenState extends State<QuizzesScreen>
               title: "Wrong Answer",
               text: "Try Again",
               descriptions: "",
-              onPressed: newGame,
+              onPressed: newGames,
             );
           });
     }
@@ -218,7 +220,7 @@ class _QuizzesScreenState extends State<QuizzesScreen>
       appBar: AppBar(
         backgroundColor: AppBrand.backgroundColor,
         title: Text(
-          "Question ${questionNumber} / ${listOfquestion.length}",
+          "Question $questionNumber / ${listOfquestion.length}",
           style: const TextStyle(
               color: AppBrand.secondColor, fontWeight: FontWeight.bold),
         ),
@@ -260,7 +262,9 @@ class _QuizzesScreenState extends State<QuizzesScreen>
                         height: Get.height * 0.15,
                         child: Text(
                           textAlign: TextAlign.start,
-                          listOfquestion[questionNumber-1]!.question.toString(),
+                          listOfquestion[questionNumber - 1]!
+                              .question
+                              .toString(),
                           style: const TextStyle(
                               color: Colors.white, fontSize: 24),
                         ),
@@ -285,17 +289,17 @@ class _QuizzesScreenState extends State<QuizzesScreen>
                           //! add the options to new list
                           List<String?> options = [];
                           options.add(
-                              listOfquestion[questionNumber-1]!.a.toString());
+                              listOfquestion[questionNumber - 1]!.a.toString());
                           options.add(
-                              listOfquestion[questionNumber-1]!.b.toString());
+                              listOfquestion[questionNumber - 1]!.b.toString());
                           options.add(
-                              listOfquestion[questionNumber-1]!.c.toString());
+                              listOfquestion[questionNumber - 1]!.c.toString());
                           options.add(
-                              listOfquestion[questionNumber-1]!.d.toString());
+                              listOfquestion[questionNumber - 1]!.d.toString());
                           return Option(
                               answer: options[index1].toString(),
                               correctAnswer:
-                                  listOfquestion[questionNumber-1]!.correct!,
+                                  listOfquestion[questionNumber - 1]!.correct!,
                               isAnswered: isAnswered,
                               onTap: isCorrect,
                               letter: letter[index1],
