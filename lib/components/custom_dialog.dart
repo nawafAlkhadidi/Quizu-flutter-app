@@ -3,13 +3,11 @@ import 'package:quiz_u/library.dart';
 class CustomDialogBox extends StatefulWidget {
   final String title, text, path, descriptions;
   final VoidCallback onPressed;
-  final VoidCallback onClosed;
   const CustomDialogBox(
       {Key? key,
       required this.title,
       required this.text,
       required this.onPressed,
-      required this.onClosed,
       required this.path,
       required this.descriptions})
       : super(key: key);
@@ -58,17 +56,13 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                     const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
               ),
               widget.descriptions.isEmpty
-                  ? const SizedBox()
-                  : const SizedBox(
-                      height: 15,
-                    ),
-              widget.descriptions.isEmpty
                   ? const SizedBox(
                       height: 15,
                     )
                   : Text(
                       widget.descriptions,
-                      style: const TextStyle(fontSize: 17),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
               widget.descriptions.isEmpty
@@ -108,7 +102,10 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             top: 50,
             right: -20,
             child: InkWell(
-                onTap: widget.onClosed,
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
                 child: const Icon(
                   Icons.close,
                   color: Colors.blue,

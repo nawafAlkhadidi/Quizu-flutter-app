@@ -45,6 +45,7 @@ dependencies:
   intl_phone_number_input: ^0.7.1
   persian_number_utility: ^1.1.2
   share_plus: ^4.4.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

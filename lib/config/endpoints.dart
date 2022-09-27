@@ -7,6 +7,8 @@
   static const userInfo = 'UserInfo';
   static const questions = 'Questions';
   static const userScore = 'Score';
+  static const token = 'Token';
+
 
 }
 

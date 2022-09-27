@@ -26,7 +26,6 @@ Widget myTextFiled({
         //  maxLength: 10,
         
         onFieldSubmitted: onSaved ,
-       // onSaved: onSaved,
          inputFormatters: inputFormatters,
         initialValue: initialValue,
         maxLines: maxLines,
@@ -44,9 +43,7 @@ Widget myTextFiled({
         cursorColor: AppBrand.mainColor,
         decoration: InputDecoration(
           filled: true,
-          
           fillColor: Colors.white,
-          //suffixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           errorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0)),

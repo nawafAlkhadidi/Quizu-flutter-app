@@ -35,6 +35,7 @@ class Prefs {
     if (value is String) return await _prefs!.setString(key!, value);
     if (value is int) return await _prefs!.setInt(key!, value);
     if (value is bool) return await _prefs!.setBool(key!, value);
+    if (value is List<String>) return await _prefs!.setStringList(key!, value);
 
     return await _prefs!.setDouble(key!, value!);
   }
@@ -51,6 +52,8 @@ class Prefs {
     return _prefs!.containsKey(key!);
   }
 
+
+
   static Map<String, dynamic> getMap(
     String key,
   ) {
@@ -65,4 +68,9 @@ class Prefs {
     Map<String, dynamic> map,
   ) =>
       setString(key, jsonEncode(map));
+
+
+
+ 
+
 }

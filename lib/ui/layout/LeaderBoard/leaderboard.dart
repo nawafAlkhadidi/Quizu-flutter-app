@@ -17,24 +17,31 @@ class _LeaderBoardSrceenState extends State<LeaderBoardSrceen>
 
 ////////////////! Get Date when this Screen open !////////////////
   Future getData() async {
-    setState(() => isloading = true);
+    if (mounted) {
+      setState(() => isloading = true);
+    }
+
     topusers = await TheTopServices.getLeaderBoard();
-    setState(() => isloading = false);
+    if (mounted) {
+      setState(() => isloading = false);
+    }
   }
 ////////////////! Get Date when this Screen open !////////////////
 
   @override
   void initState() {
-    animationController = AnimationController(
-        duration: const Duration(milliseconds: 500), vsync: this);
     super.initState();
-    getData();
+    if (mounted) {
+      animationController = AnimationController(
+          duration: const Duration(milliseconds: 500), vsync: this);
+      getData();
+    }
   }
 
   @override
   void dispose() {
     super.dispose();
-    animationController?.dispose();
+     animationController?.dispose();
   }
 
   @override

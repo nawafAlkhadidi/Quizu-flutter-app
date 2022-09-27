@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:quiz_u/library.dart';
+import 'package:quiz_u/services/userscore.dart';
 import 'package:quiz_u/ui/layout/Quiz/options_card.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizzesScreen extends StatefulWidget {
   const QuizzesScreen({super.key});
@@ -14,20 +17,21 @@ class _QuizzesScreenState extends State<QuizzesScreen>
 ////////////////! variables !////////////////
   List<QuestionModel?> listOfquestion = [];
   bool isloading = false;
-  int questionNumber = 0;
+  int questionNumber = 1;
   Timer? timer;
-  int timeOfGame = 1200;
+  int timeOfGame = 120;
   bool isAnswered = false;
   List<String> letter = ["a", "b", "c", "d"];
   int scores = 0;
   bool isSkip = false;
   AnimationController? animationController;
-
 ////////////////! Get Date when this Screen open !////////////////
   Future getData() async {
     setState(() => isloading = true);
     listOfquestion = await QuestionsServices.getAllTheQuestions();
     setState(() => isloading = false);
+    startTimer();
+    animation();
   }
 
 ////////////////! start Timer ////////////////
@@ -35,11 +39,11 @@ class _QuizzesScreenState extends State<QuizzesScreen>
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       //? Countdown Timer  (time -1)
       setState(() {
-        timeOfGame--;
+         timeOfGame --;
       });
       //? when the time's up
       if (timeOfGame == 0) {
-        timer.cancel();
+        saveScores();
         showDialog(
             context: context,
             barrierDismissible: false,
@@ -48,11 +52,7 @@ class _QuizzesScreenState extends State<QuizzesScreen>
                 path: "assets/icons/timeup1.svg",
                 title: "time's up",
                 descriptions: "You have completed $scores correct answers!",
-                text: "share",
-                onClosed: () {
-                  Get.back();
-                  Get.back();
-                },
+                text: "Share",
                 onPressed: () async {
                   await Share.share(
                       "I answered $scores correct answers in QuizU!");
@@ -66,7 +66,7 @@ class _QuizzesScreenState extends State<QuizzesScreen>
   }
 
 ////////////////! Function to skip question ////////////////!
-  void skip() {
+  Future<void> skip() async {
     setState(() {
       //? next questio
       questionNumber++;
@@ -86,29 +86,65 @@ class _QuizzesScreenState extends State<QuizzesScreen>
 ////////////////! Function to start new game ////////////////!
   void newGame() {
     setState(() {
-      questionNumber = 0;
+      questionNumber = 1;
       isSkip = false;
       isAnswered = false;
       timeOfGame = 120;
-      questionNumber = 0;
       scores = 0;
     });
     startTimer();
     Navigator.of(context).pop();
+  }
+////////////////! save Scores ////////////////!
+
+  Future<void> saveScores() async {
+    String saveScores =
+        "${DateFormat("dd/MM/yyyy").format(DateTime.now())}|${DateFormat.jm().format(DateTime.now())}|$scores";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> scoreOfUser =
+        prefs.getStringList(Prefs.getData(key: "mobile")) ?? [];
+    scoreOfUser.add(saveScores);
+    await prefs.setStringList(Prefs.getData(key: "mobile"), scoreOfUser);
+    UserScoreServices.updateScore(score: scores);
+    timer?.cancel();
   }
 
 ////////////////! Function To check the answer ////////////////!
   void isCorrect(String? letter) async {
     setState(() => isAnswered = true);
     //? when the answered is correct
-    if (letter == listOfquestion[questionNumber]!.correct) {
+    if (letter == listOfquestion[questionNumber-1]!.correct) {
       await Future.delayed(const Duration(milliseconds: 300));
-      setState(() {
-        scores++;
-        questionNumber++;
-        isAnswered = false;
-      });
-      animation();
+      print("questionNumber:  ${questionNumber}  listOfquestion:  ${listOfquestion.length}");
+      //? when the user complate all questions
+      if (questionNumber == listOfquestion.length) {
+         scores++;
+        saveScores();
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return CustomDialogBox(
+                path: "assets/icons/trophy-icon.svg",
+                title: "Win Over",
+                text: "Share",
+                descriptions: "You have completed $scores correct answers!",
+                onPressed: () async {
+                  await Share.share(
+                      "I answered $scores correct answers in QuizU!");
+                  Get.back();
+                  Get.back();
+                },
+              );
+            });
+      } else {
+        setState(() {
+          scores++;
+          questionNumber++;
+          isAnswered = false;
+        });
+        animation();
+      }
     } else {
       //? when the answered is not correct
       timer?.cancel();
@@ -121,10 +157,6 @@ class _QuizzesScreenState extends State<QuizzesScreen>
               title: "Wrong Answer",
               text: "Try Again",
               descriptions: "",
-              onClosed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
               onPressed: newGame,
             );
           });
@@ -158,9 +190,7 @@ class _QuizzesScreenState extends State<QuizzesScreen>
   void initState() {
     super.initState();
     getData();
-    startTimer();
     WidgetsBinding.instance.addObserver(this);
-    animation();
   }
 
   @override
@@ -181,14 +211,14 @@ class _QuizzesScreenState extends State<QuizzesScreen>
                     width: double.infinity,
                     font: 35,
                     height: 65,
-                    textColor: Colors.white,
+                    textColor: AppBrand.whiteColor,
                   ),
                 ),
       backgroundColor: AppBrand.backgroundColor,
       appBar: AppBar(
         backgroundColor: AppBrand.backgroundColor,
         title: Text(
-          "Question $questionNumber / ${listOfquestion.length}",
+          "Question ${questionNumber} / ${listOfquestion.length}",
           style: const TextStyle(
               color: AppBrand.secondColor, fontWeight: FontWeight.bold),
         ),
@@ -220,7 +250,9 @@ class _QuizzesScreenState extends State<QuizzesScreen>
                       Text(
                         formatHHMMSS(timeOfGame),
                         style: TextStyle(
-                            color: timeOfGame <= 30 ? Colors.red : Colors.white,
+                            color: timeOfGame <= 30
+                                ? Colors.red
+                                : AppBrand.whiteColor,
                             fontSize: 60),
                       ),
                       //! question
@@ -228,7 +260,7 @@ class _QuizzesScreenState extends State<QuizzesScreen>
                         height: Get.height * 0.15,
                         child: Text(
                           textAlign: TextAlign.start,
-                          listOfquestion[questionNumber]!.question.toString(),
+                          listOfquestion[questionNumber-1]!.question.toString(),
                           style: const TextStyle(
                               color: Colors.white, fontSize: 24),
                         ),
@@ -253,17 +285,17 @@ class _QuizzesScreenState extends State<QuizzesScreen>
                           //! add the options to new list
                           List<String?> options = [];
                           options.add(
-                              listOfquestion[questionNumber]!.a.toString());
+                              listOfquestion[questionNumber-1]!.a.toString());
                           options.add(
-                              listOfquestion[questionNumber]!.b.toString());
+                              listOfquestion[questionNumber-1]!.b.toString());
                           options.add(
-                              listOfquestion[questionNumber]!.c.toString());
+                              listOfquestion[questionNumber-1]!.c.toString());
                           options.add(
-                              listOfquestion[questionNumber]!.d.toString());
+                              listOfquestion[questionNumber-1]!.d.toString());
                           return Option(
                               answer: options[index1].toString(),
                               correctAnswer:
-                                  listOfquestion[questionNumber]!.correct!,
+                                  listOfquestion[questionNumber-1]!.correct!,
                               isAnswered: isAnswered,
                               onTap: isCorrect,
                               letter: letter[index1],

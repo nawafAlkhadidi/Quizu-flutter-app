@@ -43,7 +43,7 @@ class _LayoutScreenState extends State<LayoutScreen>
   }
 
   void signOut() async {
-    await Prefs.clearAllSharedPref();
+   await Prefs.clearAllSharedPref();
     Get.offAll(() => const SignInScreen());
   }
 
@@ -54,7 +54,7 @@ class _LayoutScreenState extends State<LayoutScreen>
         centerTitle: true,
         title: Text(
           appBar[_tabController.index],
-          style: const TextStyle(color: AppBrand.secondColor , fontWeight: FontWeight.bold),
+          style: const TextStyle(color: AppBrand.mainColor , fontWeight: FontWeight.bold),
         ),
         automaticallyImplyLeading: false,
         backgroundColor: AppBrand.backgroundColor,
@@ -65,7 +65,7 @@ class _LayoutScreenState extends State<LayoutScreen>
           onPressed: signOut,
           icon: SvgPicture.asset(
             "assets/icons/sign-out-alt.svg",
-            color: AppBrand.secondColor,
+            color: AppBrand.mainColor,
             width: 20,
             height: 20,
           ),

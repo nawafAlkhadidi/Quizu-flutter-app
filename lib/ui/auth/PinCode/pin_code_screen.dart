@@ -14,7 +14,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
   bool isloading = false;
   int rem = 60;
   final pinCodeController = TextEditingController();
- final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 ////////////////! variables !////////////////
 
   Future<void> checkCode() async {
@@ -26,6 +26,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
           otp: pinCodeController.value.text.toEnglishDigit(),
         );
         if (user!.success!) {
+          //! check if name == null go UpdateNameScreen else go LayoutScreen
           if (user.name == null) {
             await Get.off(() => const UpdateNameScreen());
           } else {
@@ -39,11 +40,6 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
           setState(() => isloading = false);
         }
       }
-      // } else {
-      //     Get.snackbar("Erorr", En,
-      //         backgroundColor: Colors.red[300]);
-      //     setState(() => isloading = false);
-      //   }
     } catch (e) {
       setState(() => isloading = false);
     }
@@ -64,24 +60,23 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppBrand.backgroundColor,
-      bottomNavigationBar:  Padding(
+      bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: context.width * .08,
           vertical: context.height * .05,
         ),
-                  child: isloading
-                      ? const CustomLoading()
-                      : DefaultButton(
-                          onPress: (() => checkCode()), //signUp,
-                          text: "Check",
-                          font: 30,
-                          height: 65,
-                          width: double.infinity,
-                          textColor: Colors.white,
-                        ),
-                ),
+        child: isloading
+            ? const CustomLoading()
+            : DefaultButton(
+                onPress: (() => checkCode()), //signUp,
+                text: "Check",
+                font: 30,
+                height: 65,
+                width: double.infinity,
+                textColor: AppBrand.whiteColor),
+      ),
       appBar: AppBar(
-        backgroundColor:  AppBrand.backgroundColor,
+        backgroundColor: AppBrand.backgroundColor,
         elevation: 0,
         automaticallyImplyLeading: true,
         leading: IconButton(
@@ -121,20 +116,18 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 14),
                     child: Text(
                       "Please enter the OTP sent to your mobile",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style:
+                          TextStyle(color: AppBrand.whiteColor, fontSize: 20),
                     ),
                   ),
                   //!Spacer
                   SizedBox(
                     height: context.height * 0.03,
                   ),
-          
+
                   Directionality(
                     textDirection: TextDirection.ltr,
                     child: Pinput(
-                    //  closeKeyboardWhenCompleted: true,
-                    //  errorText: "nawaf",
-                   // forceErrorState: false,
                       controller: pinCodeController,
                       pinAnimationType: PinAnimationType.scale,
                       separator: const SizedBox(width: 28),
@@ -143,11 +136,11 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                         height: 56,
                         textStyle: const TextStyle(
                             fontSize: 20,
-                            color: Colors.white,
+                            color: AppBrand.whiteColor,
                             fontWeight: FontWeight.w600),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: Colors.white,
+                            color: AppBrand.whiteColor,
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -155,14 +148,11 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                       validator: (value) {
                         if (value!.length != 4) {
                           return "Incomplete OTP";
-                        }   return null;
+                        }
+                        return null;
                       },
                     ),
                   ),
-                
-                 
-                 
-                 
                 ],
               ),
             ),

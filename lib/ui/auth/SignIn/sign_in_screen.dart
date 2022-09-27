@@ -39,12 +39,12 @@ class _SignInScreenState extends State<SignInScreen> {
                 width: double.infinity,
                 font: 35,
                 height: 65,
-                textColor: Colors.white,
+                textColor: AppBrand.whiteColor,
               ),
       ),
-      backgroundColor:  AppBrand.backgroundColor,
+      backgroundColor: AppBrand.backgroundColor,
       appBar: AppBar(
-        backgroundColor:  AppBrand.backgroundColor,
+        backgroundColor: AppBrand.backgroundColor,
         elevation: 0,
       ),
       body: GestureDetector(
@@ -92,7 +92,8 @@ class _SignInScreenState extends State<SignInScreen> {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Text(
                       "Mobile",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style:
+                          TextStyle(color: AppBrand.whiteColor, fontSize: 20),
                     ),
                   ),
                   //! PhoneNumberInput
@@ -115,8 +116,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         ignoreBlank: false,
                         autoValidateMode: AutovalidateMode.disabled,
-                        textStyle:
-                            const TextStyle(color: Colors.black, fontSize: 20),
+                        textStyle: const TextStyle(
+                            color: AppBrand.blackColor, fontSize: 20),
                         validator: (p0) {
                           if (p0!.length > 9) {
                             return "More than 9 digits";
@@ -126,8 +127,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           }
                           return null;
                         },
-                        selectorTextStyle:
-                            const TextStyle(color: Colors.black, fontSize: 20),
+                        selectorTextStyle: const TextStyle(
+                            color: AppBrand.blackColor, fontSize: 20),
                         inputDecoration: const InputDecoration(
                           errorStyle: TextStyle(
                               fontSize: 16.0, fontWeight: FontWeight.bold),

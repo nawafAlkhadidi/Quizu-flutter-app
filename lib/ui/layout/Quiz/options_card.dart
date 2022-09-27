@@ -34,7 +34,7 @@ class _OptionState extends State<Option> {
         return Colors.red;
       }
     } else {
-      return Colors.white;
+      return  AppBrand.whiteColor;
     }
   }
 

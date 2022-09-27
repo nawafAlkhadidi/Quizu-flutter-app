@@ -15,11 +15,12 @@ class AuthServices {
       endpoint: EndPoints.login,
       data: {"OTP": otp, "mobile": phone},
     );
-   user = LoginModel.fromJson(res.data);
+    user = LoginModel.fromJson(res.data);
     if (res.statusCode == 201) {
       await Prefs.setData(key: "token", value: user.token);
+      await Prefs.setData(key: "mobile", value: user.mobile);
     }
-    
+
     return user;
   }
 
@@ -36,5 +37,19 @@ class AuthServices {
       return true;
     }
     return false;
+  }
+
+  // ////////////////! checks Token ////////////////!
+
+  static Future<bool> checksToken() async {
+    final res = await DioHelper.getWithToken(
+        endpoint: EndPoints.token, token: Prefs.getData(key: "token"));
+    if (res.data["success"] == false) {
+       await Prefs.removeData(key: "token");
+    await Prefs.removeData(key: "mobile");
+      return false;
+    }
+
+    return true;
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:quiz_u/library.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -12,18 +13,30 @@ class _HomeScreenState extends State<ProfileScreen> {
 ////////////////! variables !////////////////
   UserModel? userProfile;
   bool isloading = false;
+  List<String> scores = [];
 ////////////////! variables !////////////////
 
   Future getData() async {
-    setState(() => isloading = true);
+    if(mounted){
+ setState(() => isloading = true);
+    }
+   
     userProfile = await ProfileServices.getUserInfo();
-    setState(() => isloading = false);
+    if(mounted){
+ setState(() => isloading = false);
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String key = Prefs.getData(key: "mobile");
+    scores = prefs.getStringList(key) ?? [];
   }
 
   @override
   void initState() {
+    
+    if(mounted){
+      getData();
+    }
     super.initState();
-    getData();
   }
 
   @override
@@ -191,41 +204,86 @@ class _HomeScreenState extends State<ProfileScreen> {
                               const SizedBox(
                                 height: 15,
                               ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      color: const Color(0xffe9e5fb),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    height: Get.height * 0.355,
-                                    width: double.infinity,
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(15),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              const Text(
-                                                "Recent matches",
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w900),
-                                              ),
-                                              SvgPicture.asset(
-                                                  "assets/icons/recentm.svg",
-                                                  height: 30,
-                                                  width: 30),
-                                            ],
-                                          ),
+                              Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    color: const Color(0xffe9e5fb),
+                                    //color: Colors.red,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  height: Get.height * 0.355,
+                                  width: double.infinity,
+                                  child: Column(
+                                    // crossAxisAlignment:
+                                    //     CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              "My Scores",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                            SvgPicture.asset(
+                                                "assets/icons/recentm.svg",
+                                                height: 30,
+                                                width: 30),
+                                          ],
                                         ),
-                                      ],
-                                    )),
-                              ),
+                                      ),
+                                      SizedBox(
+                                        height: Get.height * 0.25,
+                                        width: double.infinity,
+                                        child: ListView.builder(
+                                          itemCount: scores.length,
+                                          scrollDirection: Axis.vertical,
+                                          shrinkWrap: true,
+                                          itemBuilder: (
+                                            BuildContext context,
+                                            int index,
+                                          ) {
+                                            String score = scores[index];
+                                            List singelScore = score.split('|');
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 13),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    singelScore[1] +
+                                                        " " +
+                                                        singelScore[0],
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    "Scores: ${singelScore[2]} ",
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                             ],
                           ),
                         ),

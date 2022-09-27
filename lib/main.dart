@@ -3,9 +3,13 @@ import 'library.dart';
 
 
 void main() async{
+
     WidgetsFlutterBinding.ensureInitialized();
-  
+
  await Prefs.init();
+ //! check Token
+   AuthServices.checksToken();
+
   runApp(const MyApp());
 }
    
@@ -14,10 +18,10 @@ void main() async{
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
   @override
   Widget build(BuildContext context) {
      bool isLogin = Prefs.containsToken(key: 'token') ?? false;
+     print(isLogin);
     return GetMaterialApp(
   debugShowCheckedModeBanner: false,
      theme: ThemeData(
