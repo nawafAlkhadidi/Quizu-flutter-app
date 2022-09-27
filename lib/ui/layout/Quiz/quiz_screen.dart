@@ -19,7 +19,7 @@ class _QuizzesScreenState extends State<QuizzesScreen>
   bool isloading = false;
   int questionNumber = 1;
   Timer? timer;
-  int timeOfGame = 12;
+  int timeOfGame = 120;
   bool isAnswered = false;
   List<String> letter = ["a", "b", "c", "d"];
   int scores = 0;
@@ -87,7 +87,7 @@ class _QuizzesScreenState extends State<QuizzesScreen>
 
 ////////////////! Function to start new games ////////////////!
   void newGames() {
-    //? Clear variables
+    //? Clear variables to start new games
     setState(() {
       questionNumber = 1;
       isSkip = false;
