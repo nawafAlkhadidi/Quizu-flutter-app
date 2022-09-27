@@ -41,7 +41,7 @@ class _LeaderBoardSrceenState extends State<LeaderBoardSrceen>
   @override
   void dispose() {
     super.dispose();
-     animationController?.dispose();
+    animationController?.dispose();
   }
 
   @override

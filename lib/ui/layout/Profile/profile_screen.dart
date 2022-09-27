@@ -17,13 +17,13 @@ class _HomeScreenState extends State<ProfileScreen> {
 ////////////////! variables !////////////////
 
   Future getData() async {
-    if(mounted){
- setState(() => isloading = true);
+    if (mounted) {
+      setState(() => isloading = true);
     }
-   
+
     userProfile = await ProfileServices.getUserInfo();
-    if(mounted){
- setState(() => isloading = false);
+    if (mounted) {
+      setState(() => isloading = false);
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String key = Prefs.getData(key: "mobile");
@@ -32,8 +32,7 @@ class _HomeScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    
-    if(mounted){
+    if (mounted) {
       getData();
     }
     super.initState();
