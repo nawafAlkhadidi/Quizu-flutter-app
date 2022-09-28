@@ -6,22 +6,15 @@ import 'package:quiz_u/models/login_model.dart';
 
 class AuthServices {
 // ////////////////! login ////////////////!
-  static Future<LoginModel?> login({
+  static Future<Response> login({
     required String phone,
     required String otp,
   }) async {
-    LoginModel? user;
     Response res = await DioHelper.post(
       endpoint: EndPoints.login,
       data: {"OTP": otp, "mobile": phone},
     );
-    user = LoginModel.fromJson(res.data);
-    if (res.statusCode == 201) {
-      await Prefs.setData(key: "token", value: user.token);
-      await Prefs.setData(key: "mobile", value: user.mobile);
-    }
-
-    return user;
+    return res;
   }
 
 // ////////////////! Updete Name ////////////////!
@@ -34,6 +27,7 @@ class AuthServices {
         data: {"name": name},
         token: Prefs.getData(key: "token"));
     if (res.data["success"] == true) {
+      await Prefs.setData(key: "mobile", value: res.data["mobile"]);
       return true;
     }
     return false;
@@ -43,13 +37,12 @@ class AuthServices {
 
   static Future<bool> checksToken() async {
     final res = await DioHelper.getWithToken(
-        endpoint: EndPoints.token, token: Prefs.getData(key: "token"));
+        endpoint: EndPoints.token, token: Prefs.getData(key: "token") ?? "");
     if (res.data["success"] == false) {
-       await Prefs.removeData(key: "token");
-    await Prefs.removeData(key: "mobile");
+      await Prefs.removeData(key: "token");
+      await Prefs.removeData(key: "mobile");
       return false;
     }
-
     return true;
   }
 }

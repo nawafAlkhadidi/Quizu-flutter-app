@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:quiz_u/library.dart';
 
 class PinCodeScreen extends StatefulWidget {
@@ -21,21 +22,34 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
     try {
       if (formKey.currentState!.validate()) {
         setState(() => isloading = !isloading);
-        LoginModel? user = await AuthServices.login(
+        Response? response = await AuthServices.login(
           phone: widget.phone,
           otp: pinCodeController.value.text.toEnglishDigit(),
         );
-        if (user!.success!) {
-          //! check if name == null go UpdateNameScreen else go LayoutScreen
-          if (user.name == null) {
+        print(response.data);
+
+        // //! check if OTP == is ture
+        if (response.statusCode == 201) {
+          await Prefs.setData(key: "token", value: response.data["token"]);
+          //? check if user created! go UpdateNameScreen
+          if (response.data["message"] == "user created!") {
             await Get.off(() => const UpdateNameScreen());
-          } else {
             setState(() => isloading = !isloading);
-            await Get.to(() => const LayoutScreen());
-            await Prefs.setData(key: "token", value: user.token);
+            //! else if not user created! go check if name == null or not ?
+          } else if (response.data["message"] == "Token returning!") {
+            Prefs.setData(key: "mobile", value: response.data["mobile"]);
+            //! check if name == null go UpdateNameScreen else go LayoutScreen()
+            if (response.data["name"] == null) {
+              await Get.off(() => const UpdateNameScreen());
+              setState(() => isloading = !isloading);
+            } else {
+              setState(() => isloading = !isloading);
+              await Get.to(() => const LayoutScreen());
+            }
           }
         } else {
-          Get.snackbar("Erorr", user.message!,
+          //! snackbar when  OTP false
+          Get.snackbar("Erorr", response.data["message"],
               backgroundColor: Colors.red[300]);
           setState(() => isloading = false);
         }

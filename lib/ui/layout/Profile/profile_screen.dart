@@ -20,13 +20,13 @@ class _HomeScreenState extends State<ProfileScreen> {
     if (mounted) {
       setState(() => isloading = true);
     }
-
     userProfile = await ProfileServices.getUserInfo();
     if (mounted) {
       setState(() => isloading = false);
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String key = Prefs.getData(key: "mobile");
+    print(key);
     scores = prefs.getStringList(key) ?? [];
   }
 

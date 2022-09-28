@@ -15,11 +15,12 @@ class _SignInScreenState extends State<SignInScreen> {
   PhoneNumber userNumber = PhoneNumber(isoCode: 'SA', phoneNumber: "966");
 ////////////////! variables !////////////////
 
-  Future<void> loginIn() async {
+  void loginIn() async {
     if (formKey.currentState!.validate()) {
-      await Get.to(() => PinCodeScreen(
+       Get.to(() => PinCodeScreen(
             phone: userNumber.phoneNumber!.toEnglishDigit().toString(),
           ));
+      logoinPhoneController.clear();
     }
   }
 
@@ -114,7 +115,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         selectorConfig: const SelectorConfig(
                           selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                         ),
-                        ignoreBlank: false,
+                        ignoreBlank: true,
                         autoValidateMode: AutovalidateMode.disabled,
                         textStyle: const TextStyle(
                             color: AppBrand.blackColor, fontSize: 20),

@@ -4,9 +4,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Prefs.init();
-  //! check Token
-  AuthServices.checksToken();
-
+  
   runApp(const MyApp());
 }
 
