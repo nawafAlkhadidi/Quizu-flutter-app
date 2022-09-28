@@ -1,5 +1,5 @@
 import 'package:quiz_u/library.dart';
-import 'package:quiz_u/ui/layout/Quiz/quiz_screen.dart';
+import 'package:quiz_u/ui/layout/quiz/quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

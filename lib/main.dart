@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "Cairo",
       ),
-      home: isLogin ? const LayoutScreen() : const SignInScreen(),
+      home:  isLogin ? const LayoutScreen() : const SignInScreen(),
     );
   }
 }

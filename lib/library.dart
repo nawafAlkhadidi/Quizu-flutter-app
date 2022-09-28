@@ -8,16 +8,13 @@ export 'package:quiz_u/helpers/shared_prefs.dart';
 
 
 //! Screen
-
-
-export 'package:quiz_u/ui/auth/PinCode/pin_code_screen.dart';
-export 'package:quiz_u/ui/auth/UpdateName/update_name_screen.dart';
+export 'package:quiz_u/ui/auth/pin_code/pin_code_screen.dart';
+export 'package:quiz_u/ui/auth/update_name/update_name_screen.dart';
 export 'package:quiz_u/ui/layout/layout.dart';
-export 'package:quiz_u/ui/auth/SignIn/sign_in_screen.dart';
-export 'package:quiz_u/ui/layout/Home/home_screen.dart';
-
-export 'package:quiz_u/ui/layout/Profile/profile_screen.dart';
-export 'package:quiz_u/ui/layout/LeaderBoard/leaderboard.dart';
+export 'package:quiz_u/ui/auth/sign_in/sign_in_screen.dart';
+export 'package:quiz_u/ui/layout/home/home_screen.dart';
+export 'package:quiz_u/ui/layout/profile/profile_screen.dart';
+export 'package:quiz_u/ui/layout/leaderBoard/leaderboard.dart';
 
 //! components
 export 'package:quiz_u/config/brand.dart';
@@ -27,7 +24,7 @@ export 'package:quiz_u/components/text_filed.dart';
 export 'package:quiz_u/components/custom_tab.dart';
 export 'package:quiz_u/components/custom_dialog.dart';
 export 'package:quiz_u/components/time_format.dart';
-export 'package:quiz_u/ui/layout/LeaderBoard/card_of_leader_board.dart';
+export 'package:quiz_u/ui/layout/leaderBoard/card_of_leader_board.dart';
 
 
 //! Package

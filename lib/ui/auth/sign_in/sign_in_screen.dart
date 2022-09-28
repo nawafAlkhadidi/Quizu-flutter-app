@@ -12,16 +12,21 @@ class _SignInScreenState extends State<SignInScreen> {
   bool isloading = false;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final logoinPhoneController = TextEditingController();
-  PhoneNumber userNumber = PhoneNumber(isoCode: 'SA', phoneNumber: "966");
+  PhoneNumber userNumber = PhoneNumber(isoCode: 'SA');
 ////////////////! variables !////////////////
 
   void loginIn() async {
     if (formKey.currentState!.validate()) {
-       Get.to(() => PinCodeScreen(
+      await Get.off(() => PinCodeScreen(
             phone: userNumber.phoneNumber!.toEnglishDigit().toString(),
           ));
-      logoinPhoneController.clear();
     }
+  }
+
+  @override
+  void dispose() {
+    logoinPhoneController.dispose();
+    super.dispose();
   }
 
   @override
@@ -84,50 +89,39 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                   ),
-                  //!Spacer
-                  SizedBox(
-                    height: context.height * 0.03,
-                  ),
                   //!Text
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Text(
                       "Mobile",
                       style:
-                          TextStyle(color: AppBrand.whiteColor, fontSize: 20),
+                          TextStyle(color: AppBrand.whiteColor, fontSize: 23),
                     ),
                   ),
                   //! PhoneNumberInput
                   Container(
-                    height: 73,
+                    height: 90,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.white70),
+                        color: Colors.white),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: InternationalPhoneNumberInput(
+                        spaceBetweenSelectorAndTextField: 0,
                         maxLength: 9,
                         onInputChanged: (PhoneNumber number) {
-                          setState(() {
-                            userNumber = number;
-                          });
+                          userNumber = number;
                         },
                         selectorConfig: const SelectorConfig(
+                          leadingPadding: 10,
+                          trailingSpace: false,
+                          setSelectorButtonAsPrefixIcon: false,
                           selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                         ),
-                        ignoreBlank: true,
+                        ignoreBlank: false,
                         autoValidateMode: AutovalidateMode.disabled,
                         textStyle: const TextStyle(
                             color: AppBrand.blackColor, fontSize: 20),
-                        validator: (p0) {
-                          if (p0!.length > 9) {
-                            return "More than 9 digits";
-                          }
-                          if (p0.length < 9) {
-                            return "Less than 9 digits";
-                          }
-                          return null;
-                        },
                         selectorTextStyle: const TextStyle(
                             color: AppBrand.blackColor, fontSize: 20),
                         inputDecoration: const InputDecoration(
@@ -147,6 +141,15 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                   ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 45),
+                    child: Center(
+                      child: Text(
+                        "Developer by Nawaf Alkhadidi",
+                        style: TextStyle(color: AppBrand.whiteColor),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

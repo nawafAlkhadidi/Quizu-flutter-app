@@ -20,7 +20,6 @@ class _LeaderBoardSrceenState extends State<LeaderBoardSrceen>
     if (mounted) {
       setState(() => isloading = true);
     }
-
     topusers = await TheTopServices.getLeaderBoard();
     if (mounted) {
       setState(() => isloading = false);
@@ -30,18 +29,18 @@ class _LeaderBoardSrceenState extends State<LeaderBoardSrceen>
 
   @override
   void initState() {
-    super.initState();
     if (mounted) {
       animationController = AnimationController(
           duration: const Duration(milliseconds: 500), vsync: this);
       getData();
     }
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     animationController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -80,7 +79,7 @@ class _LeaderBoardSrceenState extends State<LeaderBoardSrceen>
                         animationController?.forward();
                         return CardOfLeaderBoard(
                             index: index,
-                            name: topusers[index]!.name!,
+                            name: topusers[index]?.name ?? "null",
                             score: topusers[index]!.score!,
                             animation: animation,
                             animationController: animationController!);

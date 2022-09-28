@@ -27,14 +27,14 @@ class _LayoutScreenState extends State<LayoutScreen>
 
   @override
   void initState() {
-    super.initState();
     _tabController = TabController(vsync: this, length: 3, initialIndex: 0);
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     _tabController.dispose();
+    super.dispose();
   }
 
   onTabIcon(index) async {
@@ -43,7 +43,7 @@ class _LayoutScreenState extends State<LayoutScreen>
   }
 
   void signOut() async {
-   await Prefs.clearAllSharedPref();
+    await Prefs.clearAllSharedPref();
     Get.offAll(() => const SignInScreen());
   }
 
@@ -54,7 +54,8 @@ class _LayoutScreenState extends State<LayoutScreen>
         centerTitle: true,
         title: Text(
           appBar[_tabController.index],
-          style: const TextStyle(color: AppBrand.mainColor , fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              color: AppBrand.mainColor, fontWeight: FontWeight.bold),
         ),
         automaticallyImplyLeading: false,
         backgroundColor: AppBrand.backgroundColor,
@@ -75,7 +76,7 @@ class _LayoutScreenState extends State<LayoutScreen>
       bottomNavigationBar: Container(
         height: 70,
         decoration: const BoxDecoration(
-          color:  Colors.white,
+          color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25),
             topRight: Radius.circular(25),

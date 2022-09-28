@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:quiz_u/library.dart';
 import 'package:quiz_u/services/userscore.dart';
-import 'package:quiz_u/ui/layout/Quiz/options_card.dart';
+import 'package:quiz_u/ui/layout/quiz/options_card.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,6 +43,7 @@ class _QuizzesScreenState extends State<QuizzesScreen>
       });
       //? when the time's up
       if (timeOfGame == 0) {
+        timer.cancel();
         if (scores != 0) {
           saveScores();
         }
@@ -109,16 +110,15 @@ class _QuizzesScreenState extends State<QuizzesScreen>
     scoreOfUser.add(saveScores);
     await prefs.setStringList(Prefs.getData(key: "mobile"), scoreOfUser);
     UserScoreServices.updateScore(score: scores);
-    timer?.cancel();
   }
 
 ////////////////! Function To check the answer ////////////////!
   void isCorrect(String? letter) async {
     setState(() => isAnswered = true);
-    //? when the answered is correct
+    //? if the answer is correct
     if (letter == listOfquestion[questionNumber - 1]!.correct) {
       await Future.delayed(const Duration(milliseconds: 300));
-      //? when the user complate all questions
+      //? if the user complate all questions
       if (questionNumber == listOfquestion.length) {
         scores++;
         saveScores();
@@ -182,17 +182,17 @@ class _QuizzesScreenState extends State<QuizzesScreen>
 
   @override
   void dispose() {
-    super.dispose();
     timer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     animationController?.dispose();
+     super.dispose();
   }
 
   @override
   void initState() {
-    super.initState();
     getData();
     WidgetsBinding.instance.addObserver(this);
+     super.initState();
   }
 
   @override
