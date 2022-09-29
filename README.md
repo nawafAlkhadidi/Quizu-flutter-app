@@ -13,7 +13,7 @@ In this project, I developed an application using the Dart language (Flutter), a
 
 # Technical Requirements
 
-NOTE: [Here_is_the_API_documentation] (https://documenter.getpostman.com/view/22492456/2s7YfU5r7h)
+NOTE: [Here_is_the_API_documentation](https://documenter.getpostman.com/view/22492456/2s7YfU5r7h)
 
 - [Token]
 
