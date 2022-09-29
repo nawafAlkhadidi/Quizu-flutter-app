@@ -13,9 +13,9 @@ In this project, I developed an application using the Dart language (Flutter), a
 
 # Technical Requirements
 
-NOTE: [Here is the API documentation] (https://documenter.getpostman.com/view/22492456/2s7YfU5r7h)
+NOTE: [Here_is_the_API_documentation] (https://documenter.getpostman.com/view/22492456/2s7YfU5r7h)
 
-- Token
+- [Token]
 
 The app checks if the token is valid on app launch. If so, home screen is shown
 GET https://quizu.okoul.com/Token
