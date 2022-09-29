@@ -1,20 +1,4 @@
-<!-- # quiz_u
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# quizu_app -->
 
 <p align="center">
     <a href="">
@@ -24,11 +8,8 @@ samples, guidance on mobile development, and a full API reference.
 
 # Quiz U App :
 
-In this project, I developed an application using the Dart language (Flutter),
-A simple app that displays many questions and the user has to answer as many in 2 minutes only.
+In this project, I developed an application using the Dart language (Flutter), a simple app that displays many questions and the user has to answer in 2 minutes only.
 
-
-This app was created as part of Okoul second challenge. See challenge details here
 
 # dependencies :
   dio: ^4.0.6
