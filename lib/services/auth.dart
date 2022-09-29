@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:quiz_u/config/endpoints.dart';
 import 'package:quiz_u/helpers/dio_helper.dart';
 import 'package:quiz_u/helpers/shared_prefs.dart';
-import 'package:quiz_u/models/login_model.dart';
-
 class AuthServices {
 // ////////////////! login ////////////////!
   static Future<Response> login({
