@@ -18,7 +18,7 @@ samples, guidance on mobile development, and a full API reference.
 
 <p align="center">
     <a href="">
-        <img src="./example/poster.png" height="400px">
+        <img src="./example/poster.png" height="500px">
     </a>
 </p>
 
