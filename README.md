@@ -15,7 +15,7 @@ In this project, I developed an application using the Dart language (Flutter), a
 
 NOTE: [Here_is_the_API_documentation](https://documenter.getpostman.com/view/22492456/2s7YfU5r7h)
 
-- [Token]
+- Token
 
 The app checks if the token is valid on app launch. If so, home screen is shown
 GET https://quizu.okoul.com/Token
@@ -57,7 +57,7 @@ Returns:
 1-Name
 2-Mobile
 
--Quiz
+- Quiz
 
 When the quiz is started, GET https://quizu.okoul.com/Questions is called returns 30 questions with their answers Returns:
 {question, option 1, option 2, option 3, options 4, correct option: X}
