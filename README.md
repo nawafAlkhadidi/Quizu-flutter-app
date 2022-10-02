@@ -70,7 +70,15 @@ Also save the score locally on local storage to be used in Profile tab
 
 
 
+
+# UI inspiration :
+
+- [Quiz App UI Design](https://www.behance.net/gallery/110674751/Quiz-App-UI-Design/modules/633351579)
+- [Queezy - Leaderboard, Answers Result, User Profile](https://dribbble.com/shots/17726071-Queezy-Leaderboard-Answers-Result-User-Profile?utm_source=Clipboard_Shot&utm_campaign=illiyinstudio&utm_content=Queezy%20-%20Leaderboard%2C%20Answers%20Result%2C%20User%20Profile&utm_medium=Social_Share)
+
+
 # dependencies :
+
   - dio: ^4.0.6
 
   - pinput: ^2.2.12
